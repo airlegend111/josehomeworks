@@ -1,17 +1,17 @@
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Map.Entry;
 
 /**
  * taller4
  */
 public class taller4 {
 
+    static Random random = new Random();
 
     static String[] getNombresDeCasas(int size) {
-        String[] response = new String[size];
-        Random random = new Random();
-
         String[] prefijos = { "la", "una" };
         String[] mid = { "cueva", "casa", "mansión" };
         String[] suf = {
@@ -24,76 +24,64 @@ public class taller4 {
                 "del vampiro",
         };
 
-        for (int i = 0; i < size; i++) {
-            int randPref = random.nextInt(prefijos.length);
-            int randMid = random.nextInt(mid.length);
-            int randSuf = random.nextInt(suf.length);
-            response[i] = prefijos[randPref] + " " + mid[randMid] + " " + suf[randSuf];
-        }
-        return response;
+        return prefijos[random.nextInt(prefijos.length)] + " " 
+        + mid[random.nextInt(mid.length)] + " " 
+        + suf[random.nextInt(suf.length)];
     }
 
-    static int[] getPrices(int size) {
-        int[] response = new int[size];
-        Random random = new Random();
-        for (int i = 0; i < size; i++) {
-            response[i] = random.nextInt(1000000);
-        }
-        return response;
+    static int getPrecios() {
+        return random.nextInt(1000000);
     }
+
 
     public static void main(String[] args) {
-        // Asociadas
-        String[] nombresDeCasas = getNombresDeCasas(10);
-        int[] prices = getPrices(10);
+        String[] nombreBarrios = { "Floresta", "Aranjuez", "Manrique", "Carlos E", "Robledo" };
+        HashMap<String, Integer> ventas = new HashMap<>();
+        HashMap<String, Integer> cantidadVentas = new HashMap<>();
+        HashMap<String, Integer> pesos = new HashMap<>();
 
-        // Aleatoria
-        String[] nombreBarrios = {
-                "Floresta",
-                "Aranjuez",
-                "Manrique",
-                "Carlos E",
-                "Robledo",
-        };
-
-        HashMap<String, Integer> ventas = new HashMap<String, Integer>();
-
+        // Inicializamos los mapas.
         for (String barrio : nombreBarrios) {
             ventas.put(barrio, 0);
+            cantidadVentas.put(barrio, 0);
+            pesos.put(barrio, random.nextInt(10) + 1);  // Suponiendo un peso aleatorio entre 1 y 10.
         }
 
-        int userEntry = 0;
-        Random rnd = new Random();
-        Scanner scner = new Scanner(System.in);
-        // 0 para descartar
-        // 1 para comprar
-        // 2 para finalizar
+        Scanner scanner = new Scanner(System.in);
+        int userEntry;
 
-        System.out.println("¡Hola te doy la bienvenida a Tinder House!");
-        System.out.println("El juego consiste en hacer match con cada casa que te guste");
-        System.out.println("presiona 0 para descartar, 1 para comprar y 2 para terminar el juego");
+        System.out.println("¡Hola! Te doy la bienvenida a Tinder House.");
+        System.out.println("El juego consiste en hacer match con cada casa que te guste.");
+        System.out.println("Presiona 0 para descartar, 1 para comprar y 2 para terminar el juego.");
         do {
-            // Aqui va el juego
-            int randCasa = rnd.nextInt(nombresDeCasas.length);
-            int randBarrio = rnd.nextInt(nombreBarrios.length);
-            int randPrice = rnd.nextInt(prices.length);
+            String casa = getNombreDeCasa();
+            String barrio = nombreBarrios[random.nextInt(nombreBarrios.length)];
+            int precio = getPrecios() * pesos.get(barrio);
+
             System.out.println("------*-------");
-            System.out.println(nombresDeCasas[randCasa]);
-            System.out.println(nombreBarrios[randBarrio]);
-            System.out.println(prices[randPrice] + " Bolivares");
+            System.out.println(casa);
+            System.out.println(barrio);
+            System.out.println(precio + " pesos");
             System.out.println("------*-------");
-            userEntry = scner.nextInt();
-            if (userEntry == 1) {
-                int actualVenta = ventas.get(nombreBarrios[randBarrio]);
-                int newVenta = actualVenta + prices[randPrice];
-                ventas.replace(nombreBarrios[randBarrio], newVenta);
+
+            try {
+                userEntry = Integer.parseInt(scanner.nextLine());
+
+                if (userEntry == 1) {
+                    ventas.put(barrio, ventas.get(barrio) + precio);
+                    cantidadVentas.put(barrio, cantidadVentas.get(barrio) + 1);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada no válida. Intenta de nuevo.");
+                userEntry = -1;
             }
+
         } while (userEntry != 2);
 
         System.out.println("Reporte de ventas:");
 
-        for (String barrio: ventas.keySet()){
-            System.out.println(barrio + " vendió "+ ventas.get(barrio));
-        }   
+        for (String barrio : ventas.keySet()) {
+            System.out.println(barrio + " vendió " + ventas.get(barrio) + " pesos y " + cantidadVentas.get(barrio) + " casas.");
+        }
     }
 }
