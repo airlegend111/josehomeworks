@@ -8,20 +8,20 @@ public class taller4 {
 
     static Random random = new Random();
 
-    static String getNombreDeCasa() {
+    static String getNombresDeCasas() {
         String[] prefijos = { "la", "una" };
         String[] mid = { "cueva", "casa", "mansión" };
         String[] suf = {
-            "de la montaña", "del bosque", "del pantano",
-            "del desierto", "de Drácula", "de la bruja", "del vampiro",
+                "de la montaña", "del bosque", "del pantano",
+                "del desierto", "de Drácula", "de la bruja", "del vampiro",
         };
 
-        return prefijos[random.nextInt(prefijos.length)] + " " 
-             + mid[random.nextInt(mid.length)] + " " 
-             + suf[random.nextInt(suf.length)];
+        return prefijos[random.nextInt(prefijos.length)] + " "
+                + mid[random.nextInt(mid.length)] + " "
+                + suf[random.nextInt(suf.length)];
     }
 
-    static int getPrice() {
+    static int getPrecios() {
         return random.nextInt(1000000);
     }
 
@@ -35,7 +35,7 @@ public class taller4 {
         for (String barrio : nombreBarrios) {
             ventas.put(barrio, 0);
             cantidadVentas.put(barrio, 0);
-            pesos.put(barrio, random.nextInt(10) + 1);  // Suponiendo un peso aleatorio entre 1 y 10.
+            pesos.put(barrio, random.nextInt(10) + 1); // Suponiendo un peso aleatorio entre 1 y 10.
         }
 
         Scanner scanner = new Scanner(System.in);
@@ -45,9 +45,9 @@ public class taller4 {
         System.out.println("El juego consiste en hacer match con cada casa que te guste.");
         System.out.println("Presiona 0 para descartar, 1 para comprar y 2 para terminar el juego.");
         do {
-            String casa = getNombreDeCasa();
+            String casa = getNombresDeCasas();
             String barrio = nombreBarrios[random.nextInt(nombreBarrios.length)];
-            int precio = getPrice() * pesos.get(barrio);
+            int precio = getPrecios() * pesos.get(barrio);
 
             System.out.println("------*-------");
             System.out.println(casa);
@@ -72,7 +72,8 @@ public class taller4 {
         System.out.println("Reporte de ventas:");
 
         for (String barrio : ventas.keySet()) {
-            System.out.println(barrio + " vendió " + ventas.get(barrio) + " Bolívares y " + cantidadVentas.get(barrio) + " casas.");
+            System.out.println(barrio + " vendió " + ventas.get(barrio) + " Bolívares y " + cantidadVentas.get(barrio)
+                    + " casas.");
         }
 
         // Reportes finales.
@@ -80,8 +81,9 @@ public class taller4 {
 
         Entry<String, Integer> maxEntry = null;
         for (Entry<String, Integer> entry : ventas.entrySet()) {
-            if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0 
-                || (entry.getValue().compareTo(maxEntry.getValue()) == 0 && pesos.get(entry.getKey()) < pesos.get(maxEntry.getKey()))) {
+            if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0
+                    || (entry.getValue().compareTo(maxEntry.getValue()) == 0
+                            && pesos.get(entry.getKey()) < pesos.get(maxEntry.getKey()))) {
                 maxEntry = entry;
             }
         }
@@ -90,7 +92,8 @@ public class taller4 {
         Entry<String, Integer> minEntry = null;
         for (Entry<String, Integer> entry : ventas.entrySet()) {
             if (minEntry == null || entry.getValue().compareTo(minEntry.getValue()) < 0
-                || (entry.getValue().compareTo(minEntry.getValue()) == 0 && pesos.get(entry.getKey()) > pesos.get(minEntry.getKey()))) {
+                    || (entry.getValue().compareTo(minEntry.getValue()) == 0
+                            && pesos.get(entry.getKey()) > pesos.get(minEntry.getKey()))) {
                 minEntry = entry;
             }
         }
@@ -98,8 +101,9 @@ public class taller4 {
 
         maxEntry = null;
         for (Entry<String, Integer> entry : cantidadVentas.entrySet()) {
-            if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0 
-                || (entry.getValue().compareTo(maxEntry.getValue()) == 0 && pesos.get(entry.getKey()) > pesos.get(maxEntry.getKey()))) {
+            if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0
+                    || (entry.getValue().compareTo(maxEntry.getValue()) == 0
+                            && pesos.get(entry.getKey()) > pesos.get(maxEntry.getKey()))) {
                 maxEntry = entry;
             }
         }
