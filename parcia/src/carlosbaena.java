@@ -5,7 +5,7 @@ import java.util.Scanner;
 import java.util.Map.Entry;
 import java.io.*;
 
-public class Final {
+public class carlosbaena {
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
@@ -18,11 +18,13 @@ public class Final {
             FileReader fr = null;
             BufferedReader br = null;
             try {
-                fr = new FileReader(diaSemana[i] + ".txt");
+                 br = new BufferedReader(new FileReader(diaSemana[i] + ".txt"));
                 String linea = "id;monto;emisor;receptor;hora";
                 linea.split(";");
+                System.out.println("---- " + i + " ----");
+                System.out.println("id\tmonto\temisor\treceptor\thora");
                 while ((linea = br.readLine()) != null) {
-                    System.out.println(linea);
+                    System.out.println(linea.replace(";", "\t"));
                 }
 
             } catch (Exception e) {
@@ -39,7 +41,7 @@ public class Final {
                 }
             }
         }
-    
+      
     }
 
 }
